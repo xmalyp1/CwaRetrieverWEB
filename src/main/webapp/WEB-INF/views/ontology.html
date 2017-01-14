@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'/>
+
+    <link  th:href="@{/resources/css/animate.css}" rel="stylesheet" type="text/css" media="all" />
+    <link  th:href="@{/resources/css/icomoon.css}" rel="stylesheet" type="text/css" media="all" />
+    <link  th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" type="text/css" media="all" />
+    <link  th:href="@{/resources/css/style.css}" rel="stylesheet" type="text/css" media="all" />
+
+    <script th:src="@{/resources/js/modernizr-2.6.2.min.js}"></script>
+
+
+</head>
+<body>
+<div class="box-wrap">
+    <header role="banner" id="fh5co-header">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="fh5co-navbar-brand">
+                            <a class="fh5co-logo" th:href="@{/}"><img style="width: 200px;" th:src="@{/resources/images/cwa_logo.png}" alt="Closest Logo"/></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="nav text-center">
+                            <li ><a th:href="@{/}"><span>Home</span></a></li>
+                            <li class="active"><a th:href="@{/ontology}">Ontologies</a></li>
+                            <li><a th:href="@{/retriever}">CWA Retriever</a></li>
+                            <li><a href="contact.html">About</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- END: header -->
+    <main id="main">
+        <div class="container animate-box">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-1">
+                    <h2>Available ontologies</h2>
+                </div>
+                <div class="col-md-2 col-md-offset-2">
+                    <a class="btn btn-primary login-btn" th:href="@{/ontology/add}">Add new</a>
+                </div>
+            </div>
+            <br/>
+            <div class="col-md-8 col-md-offset-2">
+                <div th:id="'ontology' + ${ontology.ontologyId}" class="row ontology-row" th:each="ontology : ${ontologies}">
+                    <div class="row">
+                        <h3 class="col-md-7" th:text="${ontology.name}"></h3>
+                        <div class="col-md-3 col-md-offset-2">
+                            <a class="no-underline" title="Use in retriever" th:href="@{/retriever(oid=${ontology.ontologyId})}">
+                                <i class="icon-arrow-right icon-basic"></i>
+                            </a>
+                            <a class="no-underline" title="Download" th:href="@{/ontology/{ontologyId}(ontologyId = ${ontology.ontologyId})}">
+                                <i class="icon-download2 icon-basic"></i>
+                            </a>
+                            <a class="no-underline" title="Delete" data-toggle="modal" data-target="#deleteModal" th:onclick="'selectOntology(\'' + ${ontology.ontologyId} + '\');'">
+                                <i class="icon-bin icon-basic"></i>
+                            </a>
+                        </div>
+                        <input type="hidden" th:value="${ontology.ontologyId}"></input>
+                    </div>
+                    <div class="col-md-8 col-md-offset-1">
+                        <p th:text="${ontology.description}"></p>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-4"></div> -->
+        </div>
+        <!-- Modal -->
+    </main>
+
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete the ontology?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure that you want to delete this ontology ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="removeOntology()">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <footer id="footer" role="contentinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center ">
+                    <div class="footer-widget border">
+                        <p class="pull-left"><image th:src="@{/resources/images/fei_logo.jpg}" style="width: 90px;  "/></p>
+                        <p class="pull-right footer-text"> Diploma Thesis - CWA Instance Retriever by Bc. Patrik Maly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- END: box-wrap -->
+
+<!-- jQuery -->
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<!-- jQuery Easing -->
+<script th:src="@{/resources/js/jquery.easing.1.3.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<!-- Waypoints -->
+<script th:src="@{/resources/js/jquery.waypoints.min.js}"></script>
+
+<!-- Main JS (Do not remove) -->
+<script th:src="@{/resources/js/main.js}"></script>
+<script th:src="@{/resources/js/ontologyHandler.js}"></script>
+
+</body>
+
+
+</html>
