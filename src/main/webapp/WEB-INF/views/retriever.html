@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="box-wrap">
-    <header role="banner" id="fh5co-header">
+    <header role="banner" id="fh5co-header" style="margin-bottom: 35px;">
         <div class="container">
             <nav class="navbar navbar-default">
                 <div class="row">
@@ -93,18 +93,35 @@
             </div>
             </div>
             <br/>
-            <div class="row"  th:unless="${#lists.isEmpty(retrieverAnswer)}">
-                <table class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1 animate-box">
-                    <tr>
-                        <th>Individual</th>
-                        <th>Class</th>
-                    </tr>
-                    <tr th:each="ind : ${retrieverAnswer}">
-                        <td th:text="${ind.namedIndividual}"></td>
-                        <td th:text="${ind.individualClass}"></td>
-                    </tr>
-                </table>
+            <div class="alert alert-danger col-md-8 col-md-offset-2" th:if="${error}">
+                <strong>Error!</strong> Unable to retrieve the instances, please try again.
             </div>
+            <div class="alert alert-warning col-md-8 col-md-offset-2" th:if="${emptyAnswer}">
+                <strong>No instance found!</strong> No instance found for query :  <i th:text="${answeredQuery}"></i>
+            </div>
+            <div id="retrieverResultsContainer" class="animate-box" th:unless="${#lists.isEmpty(retrieverAnswer)}">
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-2">
+                        <h4 class="no-bottom-margin">Results for query : <i th:text="${answeredQuery}">query</i></h4>
+                    </div>
+                    <div class="col-md-2 col-md-offset-1">
+                        <p class="no-bottom-margin" th:text="'Duration ' + ${duration} +' s'">Duration : 3.25 s</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">
+                        <tr>
+                            <th>Individual</th>
+                            <th>Class</th>
+                        </tr>
+                        <tr th:each="ind : ${retrieverAnswer}">
+                            <td th:text="${ind.namedIndividual}"></td>
+                            <td th:text="${ind.individualClass}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <!-- <div class="col-md-4"></div> -->
         </div>
     </main>

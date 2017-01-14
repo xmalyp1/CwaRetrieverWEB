@@ -18,6 +18,8 @@ import sk.stuba.fei.dp.maly.services.OntologyService;
 import sk.stuba.fei.dp.maly.services.RetrieverService;
 import sk.stuba.fei.dp.maly.ui.models.IndividualsDatatableModel;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class RetrieverController {
 
     @RequestMapping(value = "",method = RequestMethod.POST)
     public String getRetrieverAnswer(@ModelAttribute("configuration") RetrieverDataRequestDto configuration, BindingResult bindingResult,Model model) {
-
+        long start = System.currentTimeMillis();
         if(bindingResult.hasErrors()){
             for(ObjectError e: bindingResult.getAllErrors()){
                 System.out.println(e.toString());
@@ -61,12 +63,18 @@ public class RetrieverController {
         List<IndividualsDatatableModel> result = null;
         try {
             result = instanceRetrieverService.getIndividuals(configuration);
-        } catch (RetrieverException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+            model.addAttribute("error",true);
         }
+
         model.addAttribute("retrieverAnswer",result == null ? new LinkedList<>() : result );
+        model.addAttribute("emptyAnswer",result != null ? result.isEmpty() : false);
+        model.addAttribute("answeredQuery",configuration.getQuery());
         configuration.setQuery("");
         model.addAttribute("configuration",configuration);
+        long end = System.currentTimeMillis();
+        model.addAttribute("duration",(end-start) / 1000.0);
         return "retriever";
     }
 
