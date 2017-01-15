@@ -66,14 +66,23 @@ public class OntologyController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String ontology(@ModelAttribute("ontology") OntologyDto ontology, BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+    public String ontology(@ModelAttribute("ontology") OntologyDto ontology, BindingResult bindingResult, @RequestParam("file") MultipartFile file,Model model) {
 
         if(bindingResult.hasErrors()){
             for(ObjectError e: bindingResult.getAllErrors()){
-                System.out.println(e.toString());
-                //TODO : Display an error and handle the exception
+                model.addAttribute("error",true);
+                model.addAttribute("reason",e.toString());
+                return "add_ontology";
             }
         }
+
+        if(ontologyService.findByName(ontology.getName()) != null){
+            model.addAttribute("error",true);
+            model.addAttribute("reason","Ontology with name "+ontology.getName()+" already exists");
+            return "add_ontology";
+        }
+
+
 
         File fileForTransfer = null;
         File root = new File(applicationProperties.getFileUploadRootFolder());
@@ -81,10 +90,20 @@ public class OntologyController {
             root.mkdirs();
 
         try {
+
             fileForTransfer = new File(applicationProperties.buildFilePath(file.getOriginalFilename()));
             file.transferTo(fileForTransfer);
+            if(!ontologyService.isOntology(fileForTransfer)){
+                model.addAttribute("error",true);
+                model.addAttribute("reason",fileForTransfer.getName() + " is not an ontology!");
+                fileForTransfer.delete();
+                return "add_ontology";
+            }
         } catch (IOException e) {
-            //Todo: handle exception
+            model.addAttribute("error",true);
+            model.addAttribute("reason","Unable to create the ontology");
+            fileForTransfer.delete();
+            return "add_ontology";
         }
 
         Ontology ont = new Ontology();

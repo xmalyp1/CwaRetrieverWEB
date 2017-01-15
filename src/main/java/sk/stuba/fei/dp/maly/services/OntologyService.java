@@ -1,10 +1,16 @@
 package sk.stuba.fei.dp.maly.services;
 
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.stuba.fei.dp.maly.persistence.dao.OntologyDAO;
 import sk.stuba.fei.dp.maly.persistence.entities.Ontology;
+import sk.stuba.fei.dp.maly.retriever.InstanceRetriever;
+import uk.ac.manchester.cs.owl.owlapi.OWLOntologyManagerImpl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +34,10 @@ public class OntologyService {
 
     public List<Ontology> findAll(){
         return ontologyDAO.findAll();
+    }
+
+    public Ontology findByName(String name){
+        return ontologyDAO.findByName(name);
     }
 
     public void create(Ontology ontology){
@@ -90,6 +100,16 @@ public class OntologyService {
             inputStream.close();
             outStream.close();
 
+        }
+    }
+
+    public boolean isOntology(File f){
+        InstanceRetriever retriever = new InstanceRetriever();
+        try {
+            retriever.createOntology(f);
+            return true;
+        } catch (OWLException e) {
+            return false;
         }
     }
 }

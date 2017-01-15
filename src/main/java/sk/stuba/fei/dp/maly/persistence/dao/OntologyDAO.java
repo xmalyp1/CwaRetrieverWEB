@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.stuba.fei.dp.maly.persistence.entities.Ontology;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -26,4 +27,7 @@ public class OntologyDAO extends AbstractDAO<Ontology,Long> {
         return queryFactory.selectFrom(ontology).fetch();
     }
 
+    public Ontology findByName(@NotNull String name){
+        return queryFactory.selectFrom(ontology).where(ontology.name.equalsIgnoreCase(name)).fetchFirst();
+    }
 }
