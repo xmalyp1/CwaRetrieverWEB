@@ -17,6 +17,7 @@
 
     <link  th:href="@{/resources/css/style.css}" rel="stylesheet" type="text/css" media="all" />
     <link  th:href="@{/resources/css/tables.css}" rel="stylesheet" type="text/css" media="all" />
+    <link  th:href="@{/resources/css/loader.css}" rel="stylesheet" type="text/css" media="all" />
 
     <script th:src="@{/resources/js/modernizr-2.6.2.min.js}"></script>
 
@@ -50,7 +51,7 @@
         <div class="container">
             <div class="row">
             <div class="col-md-8 col-md-offset-2 animate-box">
-                <form action="#" th:action="@{/retriever}" th:object="${configuration}" method="post">
+                <form action="#" th:action="@{/retriever}" onsubmit="return showLoading();" th:object="${configuration}" method="post">
                     <div class="form-group row">
                         <div class="col-md-2 field">
                             <label for="cwaCheckbox">CWA mode</label>
@@ -155,6 +156,7 @@
 <script th:src="@{/resources/js/jquery.waypoints.min.js}"></script>
 <!-- Main JS (Do not remove) -->
 <script th:src="@{/resources/js/main.js}"></script>
+<script th:src="@{/resources/js/loader.js}"></script>
 
 </body>
 
