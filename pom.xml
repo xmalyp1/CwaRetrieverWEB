@@ -5,7 +5,7 @@
 
 	<groupId>sk.stuba.fei.dp.maly</groupId>
 	<artifactId>cwaretrieverweb</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>cwaRetrieverWeb</name>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>fei.stuba.dp.maly.patrik</groupId>
 			<artifactId>CwaReasoner</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.6-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import sk.stuba.fei.dp.maly.exceptions.RetrieverException;
+import sk.stuba.fei.dp.maly.model.dto.InstanceDTO;
 import sk.stuba.fei.dp.maly.persistence.dto.OntologyDto;
 import sk.stuba.fei.dp.maly.persistence.dto.RetrieverDataRequestDto;
 import sk.stuba.fei.dp.maly.persistence.entities.Ontology;
 import sk.stuba.fei.dp.maly.services.OntologyService;
 import sk.stuba.fei.dp.maly.services.RetrieverService;
-import sk.stuba.fei.dp.maly.ui.models.IndividualsDatatableModel;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -47,7 +47,7 @@ public class RetrieverController {
             config.setOntologyId(ontologyId);
         }
         model.addAttribute("configuration",config);
-        model.addAttribute("retrieverAnswer",new LinkedList<IndividualsDatatableModel>());
+        model.addAttribute("retrieverAnswer",new LinkedList<InstanceDTO>());
         return "retriever";
     }
 
@@ -60,7 +60,7 @@ public class RetrieverController {
                 //TODO : Display an error and handle the exception
             }
         }
-        List<IndividualsDatatableModel> result = null;
+        List<InstanceDTO> result = null;
         try {
             result = instanceRetrieverService.getIndividuals(configuration);
         } catch (Exception e) {
