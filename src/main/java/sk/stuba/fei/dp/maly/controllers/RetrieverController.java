@@ -89,7 +89,6 @@ public class RetrieverController {
         for(int i=0;i<ReasonerImplementation.values().length;i++){
             result.add(ReasonerImplementation.values()[i].name());
         }
-        result.add("CWA Reasoner");
         return result;
     }
 }

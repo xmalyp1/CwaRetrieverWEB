@@ -18,6 +18,7 @@ public class ApplicationProperties {
 
     private String fileUploadRootFolder;
     private String fileUploadRootFolderInitStrategy;
+    private String instanceRetrieverApiVersion;
 
     public String buildFilePath(@NotNull String relativePath) {
         return concatWithSlashes(fileUploadRootFolder, relativePath);

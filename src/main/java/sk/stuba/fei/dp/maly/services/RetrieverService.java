@@ -36,6 +36,7 @@ public class RetrieverService {
     }
 
     public List<InstanceDTO> getIndividuals(RetrieverDataRequestDto data) throws RetrieverException, ManchesterSyntaxParseException, InstanceRetrieverConfigException, ComponentInitException {
+
         Ontology o = ontologyService.findById(data.getOntologyId());
 
         if(o == null)
@@ -48,7 +49,6 @@ public class RetrieverService {
         } catch (OWLException e) {
             throw new RetrieverException("Unable to load the ontology by the instance retriever", e);
         }
-        instanceRetriever.initializeReasoner(config);
         if(config!=null || config.getOntology()==null){
             config.setMode(data.isCwaMode() ? RetrieverMode.CWA : RetrieverMode.OWA);
             ReasonerImplementation reasoner = ReasonerImplementation.valueOf(data.getReasonerName());
@@ -57,9 +57,10 @@ public class RetrieverService {
             }else{
                 throw new RetrieverException("The reasoner is not supported!");
             }
+            instanceRetriever.initializeRetriever(config);
 
             try {
-                return instanceRetriever.getIndividuals(data.getQuery(),config);
+                return instanceRetriever.getIndividuals(data.getQuery());
             } catch (ComponentInitException e) {
                 throw new RetrieverException("Unable to initialize the retriever.",e);
             } catch (ManchesterSyntaxParseException e) {

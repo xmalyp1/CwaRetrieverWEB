@@ -537,3 +537,7 @@ footer .social {
 .no-bottom-margin{
   margin-bottom:5px !important;
 }
+
+.submit-btn{
+  line-height: 2;
+}

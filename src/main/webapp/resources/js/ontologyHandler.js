@@ -9,7 +9,7 @@ function selectOntology(oid){
 
 function removeOntology(ontologyId){
     return $.ajax({
-        url: "/ontology?oid="+actualOntology,
+        url: "/app/ontology?oid="+actualOntology,
         type: "DELETE",
         success: function (data) {
             $("#ontology"+actualOntology).remove();
