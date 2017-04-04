@@ -82,6 +82,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
         // Template cache is true by default. Set to false if you want
         // templates to be automatically updated when modified.
         templateResolver.setCacheable(false);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
