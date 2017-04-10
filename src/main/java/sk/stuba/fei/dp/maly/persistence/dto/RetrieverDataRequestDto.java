@@ -15,5 +15,6 @@ public class RetrieverDataRequestDto {
     private Long ontologyId;
     private String reasonerName;
     private String query;
-    private boolean cwaMode;
+    private RetrievingMode mode;
+
 }

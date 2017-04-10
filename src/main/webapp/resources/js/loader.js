@@ -19,3 +19,10 @@ function hideLoading(){
     $('#loadingDialog').modal('hide');
 }
 
+$(document).ready(function() {
+    $('#resultsTable').DataTable({
+        "bLengthChange": false,
+        "searching": false,
+        "iDisplayLength": 10
+    } );
+} );

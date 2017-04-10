@@ -373,20 +373,20 @@ footer .social {
 .form-control {
   display: block;
   width: 100%;
-  height: 57px;
+  height: 43px;
   padding: 10px 20px;
   font-size: 20px;
   line-height: 1.42857;
-  color: #555555;
   background-color: #fff;
   background-image: none;
   border: 2px solid #ccc;
   border-radius: 4px;
   box-shadow: none;
 }
-.form-control:focus, .form-control:active {
+.form-control:focus, .form-control:active , .form-control[type=text]:hover {
   box-shadow: none;
   border: 2px solid #52d3aa;
+  background-color: transparent;
 }
 
 #submit {
@@ -429,9 +429,12 @@ footer .social {
   box-shadow: none;
   background: #52d3aa;
 }
-.btn:hover, .btn:active, .btn:focus {
-  background: #393e46 !important;
-  color: #fff;
+.btn-cwa:hover, .btn-cwa:active, .btn-cwa:focus {
+  background-color: grey !important;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  color: white !important;
   outline: none !important;
 }
 .btn.btn-default:hover, .btn.btn-default:focus, .btn.btn-default:active {
@@ -540,4 +543,8 @@ footer .social {
 
 .submit-btn{
   line-height: 2;
+}
+.checkbox{
+  margin-top:0px;
+  margin-bottom:0px;
 }

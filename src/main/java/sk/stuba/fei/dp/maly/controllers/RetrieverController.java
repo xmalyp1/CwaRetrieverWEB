@@ -14,14 +14,17 @@ import sk.stuba.fei.dp.maly.exceptions.RetrieverException;
 import sk.stuba.fei.dp.maly.model.dto.InstanceDTO;
 import sk.stuba.fei.dp.maly.persistence.dto.OntologyDto;
 import sk.stuba.fei.dp.maly.persistence.dto.RetrieverDataRequestDto;
+import sk.stuba.fei.dp.maly.persistence.dto.RetrieverResultDto;
+import sk.stuba.fei.dp.maly.persistence.dto.RetrievingMode;
 import sk.stuba.fei.dp.maly.persistence.entities.Ontology;
+import sk.stuba.fei.dp.maly.retriever.RetrieverMode;
 import sk.stuba.fei.dp.maly.services.OntologyService;
 import sk.stuba.fei.dp.maly.services.RetrieverService;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Patrik on 04/01/2017.
@@ -60,16 +63,24 @@ public class RetrieverController {
                 //TODO : Display an error and handle the exception
             }
         }
-        List<InstanceDTO> result = null;
+        List<RetrieverResultDto> result = null;
+        model.addAttribute("retrieverMode",configuration.getMode());
         try {
-            result = instanceRetrieverService.getIndividuals(configuration);
+            if(RetrievingMode.COMPARE.equals(configuration.getMode())){
+                result = instanceRetrieverService.getIndividualsInCompareMode(configuration);
+                model.addAttribute("retrieverAnswer",result == null ? new LinkedList<>() : result );
+                model.addAttribute("emptyAnswer",result != null ? result.isEmpty() : false);
+
+            }else {
+                result = instanceRetrieverService.getIndividuals(configuration);
+                model.addAttribute("retrieverAnswer",result == null ? new LinkedList<>() : result );
+                model.addAttribute("emptyAnswer",result != null ? result.isEmpty() : false);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             model.addAttribute("error",true);
         }
 
-        model.addAttribute("retrieverAnswer",result == null ? new LinkedList<>() : result );
-        model.addAttribute("emptyAnswer",result != null ? result.isEmpty() : false);
         model.addAttribute("answeredQuery",configuration.getQuery());
         configuration.setQuery("");
         model.addAttribute("configuration",configuration);
@@ -87,8 +98,16 @@ public class RetrieverController {
     public List<String> getSupportedReasoners(){
         List<String>result=new LinkedList<String>();
         for(int i=0;i<ReasonerImplementation.values().length;i++){
-            result.add(ReasonerImplementation.values()[i].name());
+            ReasonerImplementation impl = ReasonerImplementation.values()[i];
+            //exclude not supported reasoners
+            if(!ReasonerImplementation.ELK.equals(impl) && !ReasonerImplementation.OWLLINK.equals(impl))
+                result.add(impl.name());
         }
         return result;
+    }
+
+    @ModelAttribute("modes")
+    public List<RetrievingMode> getRetrieverModes(){
+        return Arrays.asList(RetrievingMode.values());
     }
 }
