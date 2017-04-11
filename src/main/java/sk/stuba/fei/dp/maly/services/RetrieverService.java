@@ -17,7 +17,6 @@ import sk.stuba.fei.dp.maly.persistence.entities.Ontology;
 import sk.stuba.fei.dp.maly.retriever.InstanceRetriever;
 import sk.stuba.fei.dp.maly.retriever.RetrieverConfiguration;
 import sk.stuba.fei.dp.maly.retriever.RetrieverMode;
-import sun.security.jca.GetInstance;
 
 import java.io.File;
 import java.util.ArrayList;
